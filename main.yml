@@ -1,0 +1,41 @@
+# Archivo de definición de pipeline en YAML
+
+# Especificamos el tipo de agente que se ejecutará el pipeline
+pool:
+  vmImage: 'ubuntu-latest'
+
+# Variables que usaremos en el pipeline
+variables:
+  terraformVersion: '0.14.0'
+  resourceGroupName: 'rg-example'
+  resourceGroupLocation: 'westus2'
+
+# Etapa de preparación para descargar Terraform
+steps:
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: '$(terraformVersion)'
+    enableServiceSelection: false
+
+# Etapa para inicializar Terraform
+- task: TerraformTaskV1@0
+  inputs:
+    command: init
+    workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+
+# Etapa para aplicar Terraform
+- task: TerraformTaskV1@0
+  inputs:
+    command: apply
+    workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+    environmentServiceName: 'AzureRM'
+    commandOptions: '-var "resource_group_name=$(resourceGroupName)" -var "resource_group_location=$(resourceGroupLocation)" -auto-approve'
+
+# Etapa para importar variables de grupo de biblioteca
+- task: AzureKeyVaultSecretTask@1
+  inputs:
+    KeyVaultName: 'library-group-vault'
+    SecretsFilter: 'terraform/*'
+    EnableSecretEncryption: false
+    ExecuteTask: 'TaskGroup'
+    TaskGroup: 'Import Terraform Variables'
