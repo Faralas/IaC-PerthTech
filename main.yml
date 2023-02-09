@@ -21,13 +21,13 @@ steps:
 - task: TerraformTaskV1@0
   inputs:
     command: init
-    workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform
 
 # Etapa para aplicar Terraform
 - task: TerraformTaskV1@0
   inputs:
     command: apply
-    workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform
     environmentServiceName: 'AzureRM'
     commandOptions: '-var "resource_group_name=$(resourceGroupName)" -var "resource_group_location=$(resourceGroupLocation)" -auto-approve'
 

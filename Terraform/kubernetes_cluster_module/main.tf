@@ -1,11 +1,21 @@
 # Define the Kubernetes cluster
 resource "azurerm_kubernetes_cluster" "example" {
-  name                = var.kubernetes_cluster_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
+  name                = "example-aks1"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  dns_prefix          = "exampleaks1"
 
-  # In English:
-  # Define the properties of the Kubernetes cluster
-  # In Spanish:
-  # Define las propiedades del clúster de Kubernetes
+  default_node_pool {
+    name       = "default"
+    node_count = 1
+    vm_size    = "Standard_B2s"
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = {
+    Environment = "Production"
+  }
 }
