@@ -1,21 +1,24 @@
+provider "azurerm" {
+  version = "2.0"
+}
+
 # Define the Kubernetes cluster
 resource "azurerm_kubernetes_cluster" "example" {
-  name                = "example-aks1"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-  dns_prefix          = "exampleaks1"
+  name                = var.kubernetes_service_name
+  location            = var.resource_group_location
+  resource_group_name = var.resource_group_name
 
   default_node_pool {
-    name       = "default"
+    name       = var.kubernetes_service_poolname
     node_count = 1
-    vm_size    = "Standard_B2s"
+    vm_size    = var.kubernetes_service_nodesize
   }
 
   identity {
-    type = "SystemAssigned"
+    type = var.kubernetes_service_identity
   }
 
   tags = {
-    Environment = "Production"
+    Environment = var.kubernetes_service_tag
   }
 }
