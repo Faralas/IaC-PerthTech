@@ -1,41 +1,39 @@
-# Archivo de definición de pipeline en YAML
+trigger :
+- none
 
-# Especificamos el tipo de agente que se ejecutará el pipeline
-pool:
-  vmImage: 'ubuntu-latest'
+stages:
 
-# Variables que usaremos en el pipeline
-variables:
-  terraformVersion: '0.14.0'
-  resourceGroupName: 'rg-example'
-  resourceGroupLocation: 'westus2'
+- stage: Terraform
+  pool:
+    vmImage: 'ubuntu-latest'
+  jobs:
+    - job: deploy_frontdoor
+      steps:
+      - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+        displayName: 'Use Terraform latest'
 
-# Etapa de preparación para descargar Terraform
-steps:
-- task: TerraformInstaller@0
-  inputs:
-    terraformVersion: '$(terraformVersion)'
-    enableServiceSelection: false
+      - task: TerraformTaskV3@3
+        displayName: 'Terraform : init'
+        inputs:
+          provider: 'azurerm'
+          command: init
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
+          backendServiceArm: 'KAP DEV - Azure'
+          backendAzureRmResourceGroupName: tfbackend
+          backendAzureRmStorageAccountName: tfbackendlogs
+          backendAzureRmContainerName: tfbackendlogs
+          backendAzureRmKey: /
 
-# Etapa para inicializar Terraform
-- task: TerraformTaskV1@0
-  inputs:
-    command: init
-    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform
+      - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+        displayName: 'terraform plan'
+        inputs:
+          command: plan
+          workingDirectory: '$(System.DefaultWorkingDirectory)/_IaC/_SB9/_TerraformDeployment/_Modules/_ResourceGroupCommon/'
+          environmentServiceName: 'KAP DEV - Azure'
 
-# Etapa para aplicar Terraform
-- task: TerraformTaskV1@0
-  inputs:
-    command: apply
-    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform
-    environmentServiceName: 'AzureRM'
-    commandOptions: '-var "resource_group_name=$(resourceGroupName)" -var "resource_group_location=$(resourceGroupLocation)" -auto-approve'
-
-# Etapa para importar variables de grupo de biblioteca
-- task: AzureKeyVaultSecretTask@1
-  inputs:
-    KeyVaultName: 'library-group-vault'
-    SecretsFilter: 'terraform/*'
-    EnableSecretEncryption: false
-    ExecuteTask: 'TaskGroup'
-    TaskGroup: 'Import Terraform Variables'
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+        displayName: 'Terraform : apply'
+        inputs:
+          command: apply
+          workingDirectory: '$(System.DefaultWorkingDirectory)/_IaC/_SB9/_TerraformDeployment/_Modules/_ResourceGroupCommon/'
+          environmentServiceNameAzureRM: 'KAP DEV - Azure'
