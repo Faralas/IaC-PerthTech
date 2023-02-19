@@ -18,7 +18,7 @@ stages:
           provider: 'azurerm'
           command: init
           workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
-          backendServiceArm: 'KAP DEV - Azure'
+          backendServiceArm: 'IA+TDA'
           backendAzureRmResourceGroupName: tfbackend
           backendAzureRmStorageAccountName: tfbackendlogs
           backendAzureRmContainerName: tfbackendlogs
@@ -29,11 +29,11 @@ stages:
         inputs:
           command: plan
           workingDirectory: '$(System.DefaultWorkingDirectory)/_IaC/_SB9/_TerraformDeployment/_Modules/_ResourceGroupCommon/'
-          environmentServiceName: 'KAP DEV - Azure'
+          environmentServiceName: 'IA+TDA'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
         displayName: 'Terraform : apply'
         inputs:
           command: apply
           workingDirectory: '$(System.DefaultWorkingDirectory)/_IaC/_SB9/_TerraformDeployment/_Modules/_ResourceGroupCommon/'
-          environmentServiceNameAzureRM: 'KAP DEV - Azure'
+          environmentServiceNameAzureRM: 'IA+TDA'
