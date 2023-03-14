@@ -19,10 +19,10 @@ stages:
           command: init
           workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
           backendServiceArm: 'IA+TDA'
-          backendAzureRmResourceGroupName: tfbackend
-          backendAzureRmStorageAccountName: tfbackendlogs
-          backendAzureRmContainerName: tfbackendlogs
-          backendAzureRmKey: /
+#          backendAzureRmResourceGroupName: tfbackend
+#          backendAzureRmStorageAccountName: tfbackendlogs
+#          backendAzureRmContainerName: tfbackendlogs
+#          backendAzureRmKey: /
 
       - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
         displayName: 'terraform plan'

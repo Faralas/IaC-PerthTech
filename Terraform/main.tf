@@ -3,14 +3,16 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.0.0"
+      version = "=2.46.0"
     }
   }
-}
+    backend "azurerm" {
+        resource_group_name  = "tfstate"
+        storage_account_name = "tfstatebackendlogsacc"
+        container_name       = "tfstate"
+        key                  = "terraform.tfstate"
+    }
 
-# Configure the Microsoft Azure Provider
-provider "azurerm" {
-  features {}
 }
 
 module "resource_group" {
