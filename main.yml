@@ -9,31 +9,39 @@ stages:
   jobs:
     - job: deploy_frontdoor
       steps:
-      - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-        displayName: 'Use Terraform latest'
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+        displayName: 'Install Terraform latest'
 
-      - task: TerraformTaskV3@3
-        displayName: 'Terraform : init'
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+        displayName: 'Terraform : azurerm'
         inputs:
-          provider: 'azurerm'
-          command: init
           workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
-          backendServiceArm: 'IA+TDA'
-#          backendAzureRmResourceGroupName: tfbackend
-#          backendAzureRmStorageAccountName: tfbackendlogs
-#          backendAzureRmContainerName: tfbackendlogs
-#          backendAzureRmKey: /
+          backendServiceArm: 'AI-TDA-SC'
+          backendAzureRmResourceGroupName: tfstate
+          backendAzureRmStorageAccountName: tfstatebackendlogsacc
+          backendAzureRmContainerName: tfstate
+          backendAzureRmKey: terraform.tfstate
 
-      - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-        displayName: 'terraform plan'
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+        displayName: 'Terraform : azurerm'
         inputs:
           command: plan
-          workingDirectory: '$(System.DefaultWorkingDirectory)/_IaC/_SB9/_TerraformDeployment/_Modules/_ResourceGroupCommon/'
-          environmentServiceName: 'IA+TDA'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
+          environmentServiceNameAzureRM: 'AI-TDA-SC'
+          backendServiceArm: 'AI-TDA-SC'
+          backendAzureRmResourceGroupName: tfstate
+          backendAzureRmStorageAccountName: tfstatebackendlogsacc
+          backendAzureRmContainerName: tfstate
+          backendAzureRmKey: terraform.tfstate
 
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-        displayName: 'Terraform : apply'
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
+        displayName: 'Terraform : azurerm'
         inputs:
           command: apply
-          workingDirectory: '$(System.DefaultWorkingDirectory)/_IaC/_SB9/_TerraformDeployment/_Modules/_ResourceGroupCommon/'
-          environmentServiceNameAzureRM: 'IA+TDA'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
+          environmentServiceNameAzureRM: 'AI-TDA-SC'
+          backendServiceArm: 'AI-TDA-SC'
+          backendAzureRmResourceGroupName: tfstate
+          backendAzureRmStorageAccountName: tfstatebackendlogsacc
+          backendAzureRmContainerName: tfstate
+          backendAzureRmKey: terraform.tfstate

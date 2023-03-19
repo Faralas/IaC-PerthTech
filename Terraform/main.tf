@@ -15,8 +15,9 @@ terraform {
 
 }
 
-module "resource_group" {
-  source = "./resource_group"
+resource "azurerm_resource_group" "resource_group" {
+  name     = var.resource_group_name
+  location = var.resource_group_location
 }
 
 module "storage_account" {
