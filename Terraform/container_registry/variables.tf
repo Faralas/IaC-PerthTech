@@ -1,5 +1,9 @@
-container_registry_name = "CR-001-IA-Python"
-container_registry_sku = "Standard"
+variable "container_registry_name" {
+  type = string
+  default = "CR001IAPython"
+}
 
-resource_group_name = "RG-001-IA-Python"
-resource_group_location = "east_us"
+variable "container_registry_sku" {
+  type = string
+  default = "Basic"
+}

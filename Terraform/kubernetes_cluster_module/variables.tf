@@ -1,10 +1,29 @@
-resource_group_name = "RG-001-IA-Python"
-resource_group_location = "east_us"
+variable "kubernetes_service_name" {
+  type = string
+  default = "aks-001-IA-Python"
+}
 
-kubernetes_service_name = "aks-001-IA-Python"
-kunernetes_service_dnsprefix = "aksiapython001"
-kubernetes_service_poolname = "aksnode-001-IA-Python"
-kubernetes_service_nodesize = "Standard_B2s"
+variable "kunernetes_service_dnsprefix" {
+  type = string
+  default = "aksiapython001"
+}
 
-kubernetes_service_identity = "SystemAssigned"
-kubernetes_service_tag = "dev"
+variable "kubernetes_service_poolname" {
+  type = string
+  default = "aksnode-001-IA-Python"
+}
+
+variable "kubernetes_service_nodesize" {
+  type = string
+  default = "Standard_B2s"
+}
+
+variable "kubernetes_service_identity" {
+  type = string
+  default = "SystemAssigned"
+}
+
+variable "kubernetes_service_tag" {
+  type = string
+  default = "test"
+}
