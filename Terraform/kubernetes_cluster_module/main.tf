@@ -1,7 +1,3 @@
-provider "azurerm" {
-  version = "2.0"
-}
-
 # Define the Kubernetes cluster
 resource "azurerm_kubernetes_cluster" "kubeStep" {
   name                = var.kubernetes_service_name
