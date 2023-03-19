@@ -3,6 +3,7 @@ resource "azurerm_kubernetes_cluster" "kubeStep" {
   name                = var.kubernetes_service_name
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
+  dns_prefix          = var.kunernetes_service_dnsprefix
 
   default_node_pool {
     name       = var.kubernetes_service_poolname

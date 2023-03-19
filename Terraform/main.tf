@@ -12,7 +12,10 @@ terraform {
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
+}
 
+provider "azurerm" {
+  features {}
 }
 
 resource "azurerm_resource_group" "resource_group" {
@@ -21,13 +24,19 @@ resource "azurerm_resource_group" "resource_group" {
 }
 
 module "storage_account" {
-  source = "./azure_storage_account"
+  source                  = "./azure_storage_account"
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
 }
 
 module "container_registry" {
-  source = "./container_registry"
+  source                  = "./container_registry"
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
 }
 
 module "kubernetes_cluster" {
-  source = "./kubernetes_cluster_module"
+  source                  = "./kubernetes_cluster_module"
+  resource_group_name     = var.resource_group_name
+  resource_group_location = var.resource_group_location
 }

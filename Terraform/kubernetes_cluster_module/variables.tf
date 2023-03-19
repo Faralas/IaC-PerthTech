@@ -1,6 +1,17 @@
+#tfvars
+variable "resource_group_name" {
+  type = string
+}
+
+variable "resource_group_location" {
+  type = string
+}
+
+
+#local
 variable "kubernetes_service_name" {
   type    = string
-  default = "aks-001-IA-Python"
+  default = "aks001IAPython"
 }
 
 variable "kunernetes_service_dnsprefix" {
@@ -10,7 +21,7 @@ variable "kunernetes_service_dnsprefix" {
 
 variable "kubernetes_service_poolname" {
   type    = string
-  default = "aksnode-001-IA-Python"
+  default = "aksnode001"
 }
 
 variable "kubernetes_service_nodesize" {
