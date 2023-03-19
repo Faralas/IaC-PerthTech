@@ -6,12 +6,12 @@ terraform {
       version = "=2.46.0"
     }
   }
-    backend "azurerm" {
-        resource_group_name  = "tfstate"
-        storage_account_name = "tfstatebackendlogsacc"
-        container_name       = "tfstate"
-        key                  = "terraform.tfstate"
-    }
+  backend "azurerm" {
+    resource_group_name  = "tfstate"
+    storage_account_name = "tfstatebackendlogsacc"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 
 }
 

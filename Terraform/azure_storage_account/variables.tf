@@ -1,14 +1,14 @@
 variable "storage_account_name" {
-  type = string
+  type    = string
   default = "rg-py-storage"
 }
 
 variable "account_tier" {
-  type = string
+  type    = string
   default = "Standard"
 }
 
 variable "account_replication" {
-  type = string
+  type    = string
   default = "LRS"
 }

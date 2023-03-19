@@ -1,9 +1,9 @@
 variable "container_registry_name" {
-  type = string
+  type    = string
   default = "CR001IAPython"
 }
 
 variable "container_registry_sku" {
-  type = string
+  type    = string
   default = "Basic"
 }
