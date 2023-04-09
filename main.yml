@@ -12,8 +12,6 @@ stages:
       - pwsh: |
           $dateParam = Get-Date -Format "dd/MM/yyyy-HH" 
           Write-Output "##vso[task.setvariable variable=dateParam;]$dateParam"
-          Write-Output "--------------------------"
-          Write-Output $env:dateParam
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
         displayName: 'Install Terraform latest'
@@ -41,10 +39,6 @@ stages:
           backendAzureRmContainerName: tfstate
           backendAzureRmKey: terraform.tfstate
 
-      - powershell: |
-          cd $(System.DefaultWorkingDirectory)/Terraform
-          ls
-
       - task: AzureFileCopy@5
         displayName: 'AzureBlob File Copy'
         inputs:
@@ -53,7 +47,6 @@ stages:
           Destination: AzureBlob
           storage: tfstatebackendlogsacc
           ContainerName: containerplanout
-          BlobPrefix: '$(dateParam)'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
         displayName: 'Terraform : azurerm'
