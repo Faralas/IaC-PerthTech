@@ -13,7 +13,7 @@ stages:
           $dateParam = Get-Date -Format "dd/MM/yyyy-HH" 
           Write-Output "##vso[task.setvariable variable=dateParam;]$dateParam"
           Write-Output "--------------------------"
-          Write-Output $(dateParam)
+          Write-Output $env:dateParam
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
         displayName: 'Install Terraform latest'
