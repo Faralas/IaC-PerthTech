@@ -11,10 +11,7 @@ stages:
       steps:
       - powershell: |
         $dateParam = Get-Date -Format "dd/MM/yyyy-HH"
-        
         Write-Host "##vso[task.setvariable variable=DATE_BUILD;]$dateParam"
-        
-        
         Write-Host "--------------------------"
         Write-Host $Env:SAUCE_USERNAME
         displayName: 'PowerShell Script'
@@ -46,7 +43,6 @@ stages:
 
       - powershell: |
         cd $(System.DefaultWorkingDirectory)/Terraform
-
         ls
 
       - task: AzureFileCopy@5
