@@ -11,9 +11,9 @@ stages:
       steps:
       - powershell: |
         $dateParam = Get-Date -Format "dd/MM/yyyy-HH"
-        Write-Host "##vso[task.setvariable variable=DATE_BUILD;]$dateParam"
+        Write-Host "##vso[task.setvariable variable=dateParam;]$dateParam"
         Write-Host "--------------------------"
-        Write-Host $Env:SAUCE_USERNAME
+        Write-Host $Env:dateParam
         displayName: 'PowerShell Script'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
