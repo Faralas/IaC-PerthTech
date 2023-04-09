@@ -9,6 +9,16 @@ stages:
   jobs:
     - job: Terraform_Deploy
       steps:
+      - powershell: |
+        $dateParam = Get-Date -Format "dd/MM/yyyy-HH"
+        
+        Write-Host "##vso[task.setvariable variable=DATE_BUILD;]$dateParam"
+        
+        
+        Write-Host "--------------------------"
+        Write-Host $Env:SAUCE_USERNAME
+        displayName: 'PowerShell Script'
+
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
         displayName: 'Install Terraform latest'
 
@@ -33,6 +43,21 @@ stages:
           backendAzureRmStorageAccountName: tfstatebackendlogsacc
           backendAzureRmContainerName: tfstate
           backendAzureRmKey: terraform.tfstate
+
+      - powershell: |
+        cd $(System.DefaultWorkingDirectory)/Terraform
+
+        ls
+
+      - task: AzureFileCopy@5
+        displayName: 'AzureBlob File Copy'
+        inputs:
+          SourcePath: '$(System.DefaultWorkingDirectory)/Terraform/plan.out'
+          azureSubscription: 'AI-TDA-SC'
+          Destination: AzureBlob
+          storage: tfstatebackendlogsacc
+          ContainerName: containerplanout
+          BlobPrefix: '$Env:SAUCE_USERNAME'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
         displayName: 'Terraform : azurerm'
