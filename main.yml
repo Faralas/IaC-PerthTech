@@ -9,12 +9,12 @@ stages:
   jobs:
     - job: Terraform_Deploy
       steps:
-      - powershell: |
-        $dateParam = Get-Date -Format "dd/MM/yyyy-HH"
-        Write-Host "##vso[task.setvariable variable=dateParam;]$dateParam"
-        Write-Host "--------------------------"
-        Write-Host $Env:dateParam
-        displayName: 'PowerShell Script'
+      - pwsh: |
+          $dateParam = Get-Date -Format "dd/MM/yyyy-HH" 
+          Write-Output "##vso[task.setvariable variable=dateParam;]$dateParam"
+          Write-Output "--------------------------"
+          Write-Output $Env:dateParam
+          displayName: 'PowerShell Script'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
         displayName: 'Install Terraform latest'
@@ -42,8 +42,8 @@ stages:
           backendAzureRmKey: terraform.tfstate
 
       - powershell: |
-        cd $(System.DefaultWorkingDirectory)/Terraform
-        ls
+          cd $(System.DefaultWorkingDirectory)/Terraform
+          ls
 
       - task: AzureFileCopy@5
         displayName: 'AzureBlob File Copy'
