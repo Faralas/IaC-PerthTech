@@ -13,13 +13,13 @@ stages:
           $dateParam = Get-Date -Format "dd/MM/yyyy-HH" 
           Write-Output "##vso[task.setvariable variable=dateParam;]$dateParam"
           Write-Output "--------------------------"
-          Write-Output $Env:dateParam
+          Write-Output $(dateParam)
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
         displayName: 'Install Terraform latest'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
-        displayName: 'Terraform : azurerm'
+        displayName: 'Terraform : init'
         inputs:
           workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
           backendServiceArm: 'AI-TDA-SC'
@@ -29,9 +29,10 @@ stages:
           backendAzureRmKey: terraform.tfstate
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
-        displayName: 'Terraform : azurerm'
+        displayName: 'Terraform : plan'
         inputs:
           command: plan
+          commandOptions: '-out plan.out'
           workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
           environmentServiceNameAzureRM: 'AI-TDA-SC'
           backendServiceArm: 'AI-TDA-SC'
@@ -52,7 +53,7 @@ stages:
           Destination: AzureBlob
           storage: tfstatebackendlogsacc
           ContainerName: containerplanout
-          BlobPrefix: '$Env:SAUCE_USERNAME'
+          BlobPrefix: '$(dateParam)'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV4@4
         displayName: 'Terraform : azurerm'
