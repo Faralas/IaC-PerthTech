@@ -52,6 +52,7 @@ stages:
         displayName: 'Terraform : azurerm'
         inputs:
           command: apply
+          commandOptions: plan.out
           workingDirectory: '$(System.DefaultWorkingDirectory)/Terraform'
           environmentServiceNameAzureRM: 'AI-TDA-SC'
           backendServiceArm: 'AI-TDA-SC'

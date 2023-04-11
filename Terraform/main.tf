@@ -1,8 +1,3 @@
-# Azure Provider source and version being used
-provider "azurerm" {
-  features {}
-}
-
 module "resource_group" {
   source                  = "./azure_resource_group"
   resource_group_name     = var.resource_group_name
