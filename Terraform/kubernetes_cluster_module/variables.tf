@@ -38,3 +38,8 @@ variable "kubernetes_service_tag" {
   type    = string
   default = "test"
 }
+
+variable "nodecount" {
+  type    = number
+  default = 1
+}
