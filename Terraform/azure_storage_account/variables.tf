@@ -10,7 +10,7 @@ variable "resource_group_location" {
 #locals
 variable "storage_account_name" {
   type    = string
-  default = "storage"
+  default = "storageperthtech"
 }
 
 variable "account_tier" {

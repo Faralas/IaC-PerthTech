@@ -12,7 +12,7 @@ variable "name-prefix" {
 
 variable "key_vault_name" {
   type    = string
-  default = "kv"
+  default = "kvPertTech"
 }
 
 variable "sku_value" {
