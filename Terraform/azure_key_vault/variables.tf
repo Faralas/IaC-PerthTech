@@ -1,4 +1,21 @@
-variable "tenant_id" {
+variable "resource_group_name" {
+  type = string
+}
+
+variable "resource_group_location" {
+  type = string
+}
+
+variable "name-prefix" {
+  type = string
+}
+
+variable "key_vault_name" {
   type    = string
-  default = ""
+  default = "kv"
+}
+
+variable "sku_value" {
+  type    = string
+  default = "standard"
 }

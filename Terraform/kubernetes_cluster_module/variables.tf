@@ -7,16 +7,20 @@ variable "resource_group_location" {
   type = string
 }
 
+variable "acr_id" {
 
-#local
+}
+
+
+#module
 variable "kubernetes_service_name" {
   type    = string
-  default = "aks001IAPython"
+  default = "aks"
 }
 
 variable "kunernetes_service_dnsprefix" {
   type    = string
-  default = "aksiapython001"
+  default = "ask-pert-app"
 }
 
 variable "kubernetes_service_poolname" {
@@ -36,10 +40,14 @@ variable "kubernetes_service_identity" {
 
 variable "kubernetes_service_tag" {
   type    = string
-  default = "test"
+  default = "dev2"
 }
 
-variable "nodecount" {
-  type    = number
-  default = 1
+variable "name-prefix" {
+  type = string
+}
+
+variable "role_definition_name" {
+  type    = string
+  default = "acrRole"
 }

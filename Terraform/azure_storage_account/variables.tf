@@ -10,7 +10,7 @@ variable "resource_group_location" {
 #locals
 variable "storage_account_name" {
   type    = string
-  default = "rgpystorage"
+  default = "storage"
 }
 
 variable "account_tier" {
@@ -21,4 +21,8 @@ variable "account_tier" {
 variable "account_replication" {
   type    = string
   default = "LRS"
+}
+
+variable "name-prefix" {
+  type = string
 }

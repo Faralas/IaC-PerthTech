@@ -1,9 +1,28 @@
-resource "azurerm_key_vault" "keyvault" {
-  name                        = "my-key-vault"
-  location                    = azurerm_resource_group.rg.location
-  resource_group_name         = azurerm_resource_group.rg.name
-  tenant_id                   = var.tenant_id
-  sku_name                    = "standard"
+data "azurerm_client_config" "current" {}
 
-  // ... (configuración de políticas de acceso, etc.) ...
+resource "azurerm_key_vault" "keyvault" {
+  name                     = "${var.name-prefix}-${var.key_vault_name}"
+  location                 = var.resource_group_location
+  resource_group_name      = var.resource_group_name
+  tenant_id                = data.azurerm_client_config.current.tenant_id
+  purge_protection_enabled = false
+
+  sku_name = var.sku_value
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
+
+    key_permissions = [
+      "get",
+    ]
+
+    secret_permissions = [
+      "get",
+    ]
+
+    storage_permissions = [
+      "get",
+    ]
+  }
 }

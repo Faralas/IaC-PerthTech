@@ -17,3 +17,7 @@ variable "container_registry_sku" {
   type    = string
   default = "Basic"
 }
+
+variable "name-prefix" {
+  type = string
+}
